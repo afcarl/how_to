@@ -24,3 +24,17 @@ if __name__ == '__main__':
 Auto-discover unit tests:
 
 `python -m unittest discover`
+
+## Show test coverage with Nose and Coverage
+
+Install coverage:
+
+`pip install coverage`
+
+Install nose:
+
+`pip install nose`
+
+Automatic discover unit tests and show test coverage:
+
+`nosetests --with-coverage`
