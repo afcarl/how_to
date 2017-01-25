@@ -1,4 +1,4 @@
-// How to iterate over c++ stl unordered_map
+// How to iterate over c++ stl map
 
 #include <iostream>
 #include <unordered_map>
