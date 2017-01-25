@@ -31,6 +31,11 @@ Install coverage:
 
 `pip install coverage`
 
+Use coverage:
+
+`coverage run <testfilename>`
+`coverage report -m`
+
 Install nose:
 
 `pip install nose`
@@ -38,3 +43,7 @@ Install nose:
 Automatic discover unit tests and show test coverage:
 
 `nosetests --with-coverage`
+
+Output only the coverage of the files in current directory:
+
+`nosetests --with-coverage --cover-inclusive --cover-package=.`
