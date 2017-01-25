@@ -1,12 +1,11 @@
 ## How to get started with Pygame
 
-#### Installation
+# To install pygame:
+#     pip install pygame
 
-`pip install pygame`
+#### Pygame hello world example:
 
-#### Hello world example
-
-<pre><code>import pygame, sys
+import pygame, sys
 from pygame.locals import *
 
 pygame.init()
@@ -59,4 +58,3 @@ while True:
     if event.type == QUIT:
       pygame.quit()
       sys.exit()
-</code></pre>
