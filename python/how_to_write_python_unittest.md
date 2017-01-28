@@ -34,6 +34,7 @@ Install coverage:
 Use coverage:
 
 `coverage run <testfilename>`
+
 `coverage report -m`
 
 Install nose:
