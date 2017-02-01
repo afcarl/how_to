@@ -7,13 +7,10 @@
 #
 # Install tensorflow with pip:
 #   `pip install tensorflow`
-# Often times with numpy:
-#   `pip install numpy`
 #
 # Adapted from the Tensorflow examples:
 #   https://github.com/aymericdamien/TensorFlow-Examples
 import tensorflow as tf
-import numpy as np
 
 # hello world example
 hello = tf.constant('Hello world!')
@@ -59,8 +56,6 @@ batch_size = 64 # mini-batch size
 
 n_input = 784   # number of pixels for each input
 n_output = 10   # number of classes in MNIST dataset
-drop_out = 0.75 # dropout rate, prob to keep units
-no_drop_out = 1
 
 x = tf.placeholder(tf.float32, [None, n_input])     # Here dimension "None" depends on the batch_size
 y = tf.placeholder(tf.float32, [None, n_output])
@@ -144,9 +139,9 @@ iterations = 20000
 for i in xrange(iterations):
   batch_x, batch_y = mnist.train.next_batch(batch_size)
   sess.run(optimizer, feed_dict={x: batch_x, y: batch_y,
-                                       drop_out_holder: drop_out})
+                                       drop_out_holder: 0.75})
 
   if i % 10 == 0:
-    l, acc = sess.run([loss, accuracy], feed_dict={x: batch_x, y: batch_y, drop_out_holder: no_drop_out})
+    l, acc = sess.run([loss, accuracy], feed_dict={x: batch_x, y: batch_y, drop_out_holder: 1.})
 
 
