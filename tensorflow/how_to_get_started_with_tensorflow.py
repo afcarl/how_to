@@ -142,6 +142,9 @@ for i in xrange(iterations):
                                        drop_out_holder: 0.75})
 
   if i % 10 == 0:
+    # Calculate batch loss and accuracy
     l, acc = sess.run([loss, accuracy], feed_dict={x: batch_x, y: batch_y, drop_out_holder: 1.})
-
+    print("Iter " + str(i*batch_size) + ", Minibatch Loss= " + \
+                "{:.6f}".format(l) + ", Training Accuracy= " + \
+                "{:.5f}".format(acc))
 
