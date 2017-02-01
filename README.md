@@ -13,6 +13,10 @@ A set of quick guides to solve problems.
 - [How to work with numpy random](python/how_to_work_with_numpy_random.py)
 - [How to get started with pygame](python/how_to_get_started_with_pygame.py)
 
+### Tensorflow
+
+- [How to get started with Tensorflow](tensorflow/how_to_get_started_with_tensorflow.py)
+
 ### Shell
 
 - [How to count lines of code](shell/how_to_count_lines_of_code.md)
