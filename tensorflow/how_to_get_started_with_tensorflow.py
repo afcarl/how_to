@@ -47,7 +47,7 @@ print sess.run(prod2, feed_dict={mat3: [[1.,2.]], mat4: [[2.],[2.]]})
 
 
 
-# CNN
+# train a CNN on MNIST dataset
 from tensorflow.examples.tutorials.mnist import input_data
 mnist = input_data.read_data_sets("/tmp/data/", one_hot=True)
 

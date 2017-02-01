@@ -15,7 +15,7 @@ A set of quick guides to solve problems.
 
 ### Tensorflow
 
-- [How to get started with Tensorflow](tensorflow/how_to_get_started_with_tensorflow.py)
+- [How to get started with Tensorflow (minimum code example for training a CNN on MNIST)](tensorflow/how_to_get_started_with_tensorflow.py)
 
 ### Shell
 
