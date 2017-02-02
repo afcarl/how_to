@@ -9,7 +9,7 @@ import numpy as np
 # Example:
 np.random.choice([1,2,4], p=[0.2,0.5,0.3])
 
-# Randomly sample m elements from n, returns a list of indices:
+# Randomly sample m elements from n with replacement, returns a list of indices,
 #   np.random.choice(n, m)
 # Example:
 np.random.choice(5,3)
