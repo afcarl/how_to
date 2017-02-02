@@ -12,6 +12,7 @@ A set of quick guides to solve problems.
 - [How to improve python code style](python/how_to_improve_python_code_style.md)
 - [How to work with numpy random](python/how_to_work_with_numpy_random.py)
 - [How to get started with pygame](python/how_to_get_started_with_pygame.py)
+- [How to get started with IPython notebook](python/how_to_get_started_with_ipython_notebook.md)
 
 ### Tensorflow
 
