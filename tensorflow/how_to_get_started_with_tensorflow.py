@@ -14,7 +14,7 @@ import tensorflow as tf
 
 # hello world example
 hello = tf.constant('Hello world!')
-sess = tf.Session()
+sess = tf.Session(config=tf.ConfigProto(log_device_placement=True))
 print sess.run(hello)
 
 # basic operations
