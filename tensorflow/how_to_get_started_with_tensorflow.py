@@ -85,6 +85,7 @@ def max_pooling(x, k_sz=2):
 def conv_net(x, weights, biases, drop_out):
   # If one component of shape is the special value -1, the size of that dimension is computed so that the total size remains constant. 
   # In particular, a shape of [-1] flattens into 1-D. At most one component of shape can be -1.
+
   x = tf.reshape(x, shape=[-1,28,28,1])
 
   conv1 = conv_layer(x, weights['wc1'], biases['bc1'])
@@ -121,14 +122,14 @@ biases = {
   'out': tf.Variable(tf.random_normal([n_output]))
 }
 
-net = conv_net(x, weights, biases, drop_out_holder)
+with tf.device("/cpu:0"):
+  net = conv_net(x, weights, biases, drop_out_holder)
 
-loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=net, labels=y))
-optimizer = tf.train.AdamOptimizer(learning_rate=lr).minimize(loss)
+  loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=net, labels=y))
+  optimizer = tf.train.AdamOptimizer(learning_rate=lr).minimize(loss)
 
-
-correct_pred = tf.equal(tf.argmax(net, 1), tf.argmax(y, 1))
-accuracy = tf.reduce_mean(tf.cast(correct_pred, tf.float32))
+  correct_pred = tf.equal(tf.argmax(net, 1), tf.argmax(y, 1))
+  accuracy = tf.reduce_mean(tf.cast(correct_pred, tf.float32))
 
 # Initializing the variables
 init = tf.global_variables_initializer()
