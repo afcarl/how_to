@@ -12,11 +12,8 @@ batch_size = 64 # mini-batch size
 n_input = 784   # number of pixels for each input
 n_output = 10   # number of classes in MNIST dataset
 
-
 model_path = '/tmp/cnn-experiment-0'
 model_dir = '/tmp/cnn-experiment-0/model'
-if not os.path.isdir(model_dir):
-  os.makedirs(model_dir)
 
 # layer wrappers
 def conv_layer(x, W, b, stride=1):
@@ -98,6 +95,8 @@ with tf.Session() as sess:
   if os.path.isdir(model_dir):
     saver.restore(sess, model_path)
     print 'restored model'
+  else:
+    os.makedirs(model_dir)
 
   iterations = 50
   for i in xrange(iterations):

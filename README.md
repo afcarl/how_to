@@ -19,4 +19,4 @@ A set of quick guides to solve problems.
 
 - [How to get started with Tensorflow (minimum code example for training a CNN on MNIST)](tensorflow/how_to_get_started_with_tensorflow.py)
 - [How to work with Tensorboard](tensorflow/how_to_work_with_tensorboard.ipynb)
-- [How to save and load model](tensorflow/how_to_work_with_tensorboard.ipynb)
+- [How to save and load model in Tensorflow](tensorflow/how_to_work_with_tensorboard.ipynb)
