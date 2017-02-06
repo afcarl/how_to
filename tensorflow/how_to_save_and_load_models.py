@@ -12,8 +12,8 @@ batch_size = 64 # mini-batch size
 n_input = 784   # number of pixels for each input
 n_output = 10   # number of classes in MNIST dataset
 
-model_path = '/tmp/cnn-experiment-0'
-model_dir = '/tmp/cnn-experiment-0/model'
+model_dir = '/tmp/cnn-experiment-0'
+model_path = '/tmp/cnn-experiment-0/model'
 
 # layer wrappers
 def conv_layer(x, W, b, stride=1):
