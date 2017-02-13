@@ -122,7 +122,7 @@ biases = {
   'out': tf.Variable(tf.random_normal([n_output]))
 }
 
-with tf.device("/cpu:0"):
+with tf.device("/gpu:0"):
   net = conv_net(x, weights, biases, drop_out_holder)
 
   loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=net, labels=y))
@@ -132,7 +132,9 @@ with tf.device("/cpu:0"):
   accuracy = tf.reduce_mean(tf.cast(correct_pred, tf.float32))
 
 # Initializing the variables
-init = tf.global_variables_initializer()
+init = tf.initialize_all_variables()
+# newer version of tensorflow:
+# init = tf.global_variables_initializer()
 
 sess.run(init)
 
