@@ -27,7 +27,7 @@ c = tf.placeholder(tf.int16)
 d = tf.placeholder(tf.int16)
 
 add = tf.add(c,d)
-mul = tf.mul(a,b)
+mul = tf.multiply(a,b)
 
 print sess.run(add, feed_dict={c:2, d:3})
 print sess.run(mul, feed_dict={c:2, d:3})
