@@ -47,6 +47,7 @@ print sess.run(prod2, feed_dict={mat3: [[1.,2.]], mat4: [[2.],[2.]]})
 
 
 
+
 # train a CNN on MNIST dataset
 from tensorflow.examples.tutorials.mnist import input_data
 mnist = input_data.read_data_sets("/tmp/data/", one_hot=True)
@@ -57,73 +58,77 @@ batch_size = 64 # mini-batch size
 n_input = 784   # number of pixels for each input
 n_output = 10   # number of classes in MNIST dataset
 
+
+# layer wrappers
+def max_pool(x, k_sz=[2,2]):
+  """max pooling layer wrapper
+  Args
+    x:      4d tensor [batch, height, width, channels]
+    k_sz:   The size of the window for each dimension of the input tensor
+  Returns
+    a max pooling layer
+  """
+  return tf.nn.max_pool(x, ksize=[1, k_sz[0], k_sz[1], 1], strides=[1, k_sz[0], k_sz[1], 1], padding='SAME')
+
+def conv2d(x, n_kernel, k_sz, channels, stride=1):
+  """convolutional layer with relu activation wrapper
+  Args:
+    x:          4d tensor [batch, height, width, channels]
+    channels    channels of x
+    n_kernel:   number of kernels (output size)
+    k_sz:       2d array, kernel size. e.g. [8,8]
+    stride:     stride
+  Returns
+    a conv2d layer
+  """
+  W = tf.Variable(tf.random_normal([k_sz[0], k_sz[1], channels, n_kernel]))
+  b = tf.Variable(tf.random_normal([n_kernel]))
+  # - strides[0] and strides[1] must be 1
+  # - padding can be 'VALID'(without padding) or 'SAME'(zero padding)
+  #     - http://stackoverflow.com/questions/37674306/what-is-the-difference-between-same-and-valid-padding-in-tf-nn-max-pool-of-t
+  conv = tf.nn.conv2d(x, W, strides=[1, stride, stride, 1], padding='SAME')
+  conv = tf.nn.bias_add(conv, b) # add bias term
+  return tf.nn.relu(conv) # rectified linear unit: https://en.wikipedia.org/wiki/Rectifier_(neural_networks)
+
+
+def fc(x, n_input, n_output, activation_fn=None):
+  """fully connected layer with relu activation wrapper
+  Args
+    x:          2d tensor [batch, n_input]
+    n_output    output size
+  """
+  x_shape = tf.shape(x)
+  W=tf.Variable(tf.random_normal([n_input, n_output]))
+  b=tf.Variable(tf.random_normal([n_output]))
+  fc1 = tf.add(tf.matmul(x, W), b)
+  if not activation_fn == None:
+    fc1 = activation_fn(fc1)
+  return fc1
+
+
+def conv_net(x, drop_out):
+  # If one component of shape is the special value -1, the size of that dimension is computed so that the total size remains constant. 
+  # In particular, a shape of [-1] flattens into 1-D. At most one component of shape can be -1.
+  x = tf.reshape(x, shape=[-1,28,28,1])
+  conv1 = conv2d(x, channels=1, n_kernel=32, k_sz=[5,5], stride=1)
+  conv1 = max_pool(conv1, k_sz=[2,2])
+  conv2 = conv2d(conv1, channels=32, n_kernel=64, k_sz=[5,5], stride=1)
+  conv2 = max_pool(conv2, k_sz=[2,2])
+  # flattening
+  fc1 = tf.reshape(conv2, [-1, 7*7*64])
+  fc1 = fc(fc1, n_input=7*7*64,activation_fn=tf.nn.relu, n_output=1024)
+  fc1 = tf.nn.dropout(fc1, drop_out)
+  out = fc(fc1, n_input=1024, n_output=n_output)
+  return out
+
+
 x = tf.placeholder(tf.float32, [None, n_input])     # Here dimension "None" depends on the batch_size
 y = tf.placeholder(tf.float32, [None, n_output])
 drop_out_holder = tf.placeholder(tf.float32)
 
-# layer wrappers
 
-def conv_layer(x, W, b, stride=1):
-  # https://www.tensorflow.org/api_docs/python/nn/convolution#conv2d
-  # 
-  # - x: 4d tensor [batch, height, width, channels]
-  # - W, b: weights
-  # - strides[0] and strides[1] must be 1
-  # - padding can be 'VALID'(without padding) or 'SAME'(zero padding)
-  #     - http://stackoverflow.com/questions/37674306/what-is-the-difference-between-same-and-valid-padding-in-tf-nn-max-pool-of-t
-  x = tf.nn.conv2d(x, W, strides=[1, stride, stride, 1], padding='SAME')
-  x = tf.nn.bias_add(x, b) # add bias term
-  return tf.nn.relu(x) # rectified linear unit: https://en.wikipedia.org/wiki/Rectifier_(neural_networks)
-
-def max_pooling(x, k_sz=2):
-  # https://www.tensorflow.org/api_docs/python/nn/pooling#max_pool
-  # 
-  # - x: 4d tensor [batch, height, width, channels]
-  # - ksize: The size of the window for each dimension of the input tensor
-  return tf.nn.max_pool(x, ksize=[1, k_sz, k_sz, 1], strides=[1, k_sz, k_sz, 1], padding='SAME')
-
-def conv_net(x, weights, biases, drop_out):
-  # If one component of shape is the special value -1, the size of that dimension is computed so that the total size remains constant. 
-  # In particular, a shape of [-1] flattens into 1-D. At most one component of shape can be -1.
-
-  x = tf.reshape(x, shape=[-1,28,28,1])
-
-  conv1 = conv_layer(x, weights['wc1'], biases['bc1'])
-  conv1 = max_pooling(conv1, k_sz=2)
-
-  conv2 = conv_layer(conv1, weights['wc2'], biases['bc2'])
-  conv2 = max_pooling(conv2, k_sz=2)
-
-  fc1 = tf.reshape(conv2, [-1, weights['wf1'].get_shape().as_list()[0]])
-  fc1 = tf.add(tf.matmul(fc1, weights['wf1']), biases['bf1'])
-  fc1 = tf.nn.relu(fc1)
-  fc1 = tf.nn.dropout(fc1, drop_out)
-
-  out = tf.add(tf.matmul(fc1, weights['out']), biases['out'])
-  return out
-
-# initialize layers weight & bias
-weights = {
-  # 5x5 conv, 1 input, 32 outputs
-  'wc1': tf.Variable(tf.random_normal([5, 5, 1, 32])),
-  # 5x5 conv, 32 inputs, 64 outputs
-  'wc2': tf.Variable(tf.random_normal([5, 5, 32, 64])),
-  # fully connected, 7*7*64 inputs, 1024 outputs
-  'wf1': tf.Variable(tf.random_normal([7*7*64, 1024])),
-  # 1024 inputs, 10 outputs (class prediction)
-  'out': tf.Variable(tf.random_normal([1024, n_output]))
-}
-
-
-biases = {
-  'bc1': tf.Variable(tf.random_normal([32])),
-  'bc2': tf.Variable(tf.random_normal([64])),
-  'bf1': tf.Variable(tf.random_normal([1024])),
-  'out': tf.Variable(tf.random_normal([n_output]))
-}
-
-with tf.device("/gpu:0"):
-  net = conv_net(x, weights, biases, drop_out_holder)
+with tf.device("/cpu:0"):
+  net = conv_net(x, drop_out_holder)
 
   loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=net, labels=y))
   optimizer = tf.train.AdamOptimizer(learning_rate=lr).minimize(loss)
@@ -138,7 +143,7 @@ init = tf.initialize_all_variables()
 
 sess.run(init)
 
-iterations = 20000
+iterations = 10000
 for i in xrange(iterations):
   batch_x, batch_y = mnist.train.next_batch(batch_size)
   sess.run(optimizer, feed_dict={x: batch_x, y: batch_y,
