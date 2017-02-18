@@ -70,18 +70,17 @@ def max_pool(x, k_sz=[2,2]):
   """
   return tf.nn.max_pool(x, ksize=[1, k_sz[0], k_sz[1], 1], strides=[1, k_sz[0], k_sz[1], 1], padding='SAME')
 
-def conv2d(x, n_kernel, k_sz, channels, stride=1):
+def conv2d(x, n_kernel, k_sz, stride=1):
   """convolutional layer with relu activation wrapper
   Args:
     x:          4d tensor [batch, height, width, channels]
-    channels    channels of x
     n_kernel:   number of kernels (output size)
     k_sz:       2d array, kernel size. e.g. [8,8]
     stride:     stride
   Returns
     a conv2d layer
   """
-  W = tf.Variable(tf.random_normal([k_sz[0], k_sz[1], channels, n_kernel]))
+  W = tf.Variable(tf.random_normal([k_sz[0], k_sz[1], int(x.get_shape()[3]), n_kernel]))
   b = tf.Variable(tf.random_normal([n_kernel]))
   # - strides[0] and strides[1] must be 1
   # - padding can be 'VALID'(without padding) or 'SAME'(zero padding)
@@ -91,14 +90,13 @@ def conv2d(x, n_kernel, k_sz, channels, stride=1):
   return tf.nn.relu(conv) # rectified linear unit: https://en.wikipedia.org/wiki/Rectifier_(neural_networks)
 
 
-def fc(x, n_input, n_output, activation_fn=None):
+def fc(x, n_output, activation_fn=None):
   """fully connected layer with relu activation wrapper
   Args
     x:          2d tensor [batch, n_input]
     n_output    output size
   """
-  x_shape = tf.shape(x)
-  W=tf.Variable(tf.random_normal([n_input, n_output]))
+  W=tf.Variable(tf.random_normal([int(x.get_shape()[1]), n_output]))
   b=tf.Variable(tf.random_normal([n_output]))
   fc1 = tf.add(tf.matmul(x, W), b)
   if not activation_fn == None:
@@ -106,19 +104,31 @@ def fc(x, n_input, n_output, activation_fn=None):
   return fc1
 
 
+def flatten(x):
+  """flatten a 4d tensor into 2d
+  Args
+    x:          4d tensor [batch, height, width, channels]
+  Returns a flattened 2d tensor
+  """
+  return tf.reshape(x, [-1, int(x.get_shape()[1]*x.get_shape()[2]*x.get_shape()[3])])
+
+
+
+
 def conv_net(x, drop_out):
   # If one component of shape is the special value -1, the size of that dimension is computed so that the total size remains constant. 
   # In particular, a shape of [-1] flattens into 1-D. At most one component of shape can be -1.
   x = tf.reshape(x, shape=[-1,28,28,1])
-  conv1 = conv2d(x, channels=1, n_kernel=32, k_sz=[5,5], stride=1)
+  conv1 = conv2d(x, n_kernel=32, k_sz=[5,5], stride=1)
   conv1 = max_pool(conv1, k_sz=[2,2])
-  conv2 = conv2d(conv1, channels=32, n_kernel=64, k_sz=[5,5], stride=1)
+  conv2 = conv2d(conv1, n_kernel=64, k_sz=[5,5], stride=1)
   conv2 = max_pool(conv2, k_sz=[2,2])
   # flattening
-  fc1 = tf.reshape(conv2, [-1, 7*7*64])
-  fc1 = fc(fc1, n_input=7*7*64,activation_fn=tf.nn.relu, n_output=1024)
+  # fc1 = tf.reshape(conv2, [-1, 7*7*64])
+  fc1 = flatten(conv2)
+  fc1 = fc(fc1, activation_fn=tf.nn.relu, n_output=1024)
   fc1 = tf.nn.dropout(fc1, drop_out)
-  out = fc(fc1, n_input=1024, n_output=n_output)
+  out = fc(fc1, n_output=n_output)
   return out
 
 
