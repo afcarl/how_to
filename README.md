@@ -25,3 +25,8 @@ A set of quick guides to solve problems.
 ### Shell
 
 - [How to work with tmux](shell/how_to_work_with_tmux.md)
+
+### Machine Learning
+
+- [How to generate gaussian processes](ml/how_to_plot_a_gp.py)
+
