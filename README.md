@@ -2,6 +2,13 @@
 
 A set of quick guides to solve problems.
 
+### Machine Learning
+
+- [How to generate gaussian processes in python](ml/how_to_plot_a_gp.py)
+- [How to generate gaussian processes in matlab](ml/how_to_plot_simple_gps.m)
+- [How to solve linear programs and quadratic programs using CVXOPT in python](python/how_to_solve_lp_qp_with_cvxopt.py)
+- [How to use l-BFGS in python (2 examples)](ml/how_to_use_l-bfgs.py)
+
 ### C++
 
 - [How to iterate over C++ STL map](cpp/how_to_iterate_over_cpp_stl_map.cpp)
@@ -24,8 +31,3 @@ A set of quick guides to solve problems.
 ### Shell
 
 - [How to work with tmux](shell/how_to_work_with_tmux.md)
-
-### Machine Learning
-
-- [How to generate gaussian processes (python)](ml/how_to_plot_a_gp.py)
-- [How to solve linear programs and quadratic programs using CVXOPT (python)](python/how_to_solve_lp_qp_with_cvxopt.py)

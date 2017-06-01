@@ -1,5 +1,5 @@
 '''
-How to plot gaussian processes
+How to plot a simple gaussian processes
 
 Credits:
   https://www.youtube.com/watch?v=4vGiHC35j9s&t=5s
