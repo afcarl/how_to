@@ -8,7 +8,6 @@ A set of quick guides to solve problems.
 
 ### Python
 
-- [How to solve linear programs and quadratic programs using CVXOPT](python/how_to_solve_lp_qp_with_cvxopt.py)
 - [How to write python unittest](python/how_to_write_python_unittest.md)
 - [How to improve python code style](python/how_to_improve_python_code_style.md)
 - [How to visualize python profiler using pycallgraph](python/how_to_profile_python_programs_using_pycallgraph.py)
@@ -28,5 +27,5 @@ A set of quick guides to solve problems.
 
 ### Machine Learning
 
-- [How to generate gaussian processes](ml/how_to_plot_a_gp.py)
-
+- [How to generate gaussian processes (python)](ml/how_to_plot_a_gp.py)
+- [How to solve linear programs and quadratic programs using CVXOPT (python)](python/how_to_solve_lp_qp_with_cvxopt.py)
