@@ -1,6 +1,6 @@
 # How to use scipy's l-bfgs with tensorflow
 # 
-# The motivation is that:
+# The motivations are
 # 1) tensorflow does not have native l-bfgs optimizer.
 # 2) sometimes we want to include complex gradient/hessian operations in our computation, 
 #       this can be done using tf.gradients() easily.
