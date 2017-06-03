@@ -4,6 +4,7 @@ A set of quick guides to solve problems. Personal code notes.
 
 ### Machine Learning
 
+- [How to compute Hession using tensorflow](ml/how_to_compute_hessian_with_tensorflow.py)
 - [How to generate gaussian processes in python](ml/how_to_plot_a_gp.py)
 - [How to generate gaussian processes in matlab](ml/how_to_plot_simple_gps.m)
 - [How to solve linear programs and quadratic programs using CVXOPT in python](python/how_to_solve_lp_qp_with_cvxopt.py)
