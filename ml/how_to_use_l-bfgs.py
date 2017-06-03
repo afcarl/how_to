@@ -1,9 +1,9 @@
+# How to use scipy's l-bfgs
 import numpy as np
 from scipy.optimize import fmin_bfgs, fmin_l_bfgs_b
 
 # example 1:
 #     credits: https://stackoverflow.com/questions/28256737/why-isnt-arange-defined
-
 x_true = np.arange(0,10,0.1)
 m_true = 2.5
 b_true = 1.0
@@ -41,6 +41,5 @@ def rosen_der(x):
    return der
 
 x0 = np.array([1.3, 0.7, 0.8, 1.9, 1.2])
-# res = fmin_bfgs(rosen, x0, fprime=rosen_der)
-res = fmin_l_bfgs_b(rosen, x0, fprime=rosen_der)
-print res
+print fmin_bfgs(rosen, x0, fprime=rosen_der)
+print fmin_l_bfgs_b(rosen, x0, fprime=rosen_der)

@@ -4,6 +4,7 @@ A set of quick guides to solve problems. Personal code notes.
 
 ### Machine Learning
 
+- [How to use scipy's l-bfgs with tensorflow](ml/how_to_use_scipy_lbfgs_with_tensorflow.py)
 - [How to compute Hession using tensorflow](ml/how_to_compute_hessian_with_tensorflow.py)
 - [How to generate gaussian processes in python](ml/how_to_plot_a_gp.py)
 - [How to generate gaussian processes in matlab](ml/how_to_plot_simple_gps.m)
