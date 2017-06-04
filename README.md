@@ -17,6 +17,7 @@ A set of quick guides to solve problems. Personal code notes.
 
 ### Python
 
+- [How to compute gradients and hessian using Numdifftools](python/how_to_use_Numdifftools.py)
 - [How to use autograd](python/how_to_use_autograd.py)
 - [How to write python unittest](python/how_to_write_python_unittest.md)
 - [How to improve python code style](python/how_to_improve_python_code_style.md)
