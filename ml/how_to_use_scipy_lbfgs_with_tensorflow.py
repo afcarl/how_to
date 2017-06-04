@@ -31,7 +31,7 @@ def func_grad(xy):
   x = tf.placeholder(tf.float64)
   y = tf.placeholder(tf.float64)
   f = tf.pow(x, 2) + tf.pow(y,2)
-  grad = tf.pack([tf.gradients(f, x)[0], tf.gradients(f, y)[0]])
+  grad = tf.stack([tf.gradients(f, x)[0], tf.gradients(f, y)[0]])
   return grad.eval(feed_dict={x:xy[0], y:xy[1]})
 
 ''' regular function counter-parts '''
