@@ -10,6 +10,7 @@ A set of quick guides to solve problems. Personal code notes.
 - [How to generate gaussian processes in matlab](ml/how_to_plot_simple_gps.m)
 - [How to solve linear programs and quadratic programs using CVXOPT in python](python/how_to_solve_lp_qp_with_cvxopt.py)
 - [How to use scipy's l-BFGS (2 examples)](ml/how_to_use_l-bfgs.py)
+- [How to implement the pdf of a multivariate Gaussian distribution](ml/multivariate_normal_dist.py)
 
 ### C++
 
